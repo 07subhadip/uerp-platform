@@ -1,4 +1,4 @@
-<![CDATA[# UERP — Universal Entertainment Recommendation Platform
+# UERP — Universal Entertainment Recommendation Platform
 
 A zero-cost, production-style AI recommendation system for **Movies**, **TV Series**, and **Anime**, built end-to-end as a portfolio project.
 
@@ -237,4 +237,4 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 <p align="center">
   <i>Built with ☕ and curiosity by <a href="https://github.com/07subhadip">Subhadip</a></i>
 </p>
-]]>
+
