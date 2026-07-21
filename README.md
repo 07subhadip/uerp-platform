@@ -41,8 +41,8 @@ The project emphasizes **real-world engineering practices**: resumable pipelines
 | **Deployment**     | Vercel (frontend) · Render / HF Spaces (backend)|
 | **Data Processing**| Kaggle Notebooks (Python, Pandas)               |
 | **Model Training** | Kaggle (GPU)                                    |
-| **Dataset Storage**| Hugging Face Hub → `UERP_Dataset` repo          |
-| **Model Storage**  | Hugging Face Hub → `UERP_Model` repo            |
+| **Dataset Storage**| Hugging Face Hub → [`UERP_Dataset`](https://huggingface.co/datasets/Subhadip007/UERP_Dataset) repo |
+| **Model Storage**  | Hugging Face Hub → [`UERP_Model`](https://huggingface.co/Subhadip007/UERP_Model) repo            |
 
 ```
 ┌──────────────┐     ┌──────────────────┐     ┌──────────────────┐
@@ -144,7 +144,7 @@ The final merged catalog uses the following columns:
 | `runtime_minutes`   | Runtime in minutes (movies only; null for TV-type entries)        |
 | `episodes`          | Episode count (anime only; null for non-anime entries)            |
 
-**Final unified catalog: 39,664 titles** → pushed to Hugging Face Hub as `unified_catalog_v1.parquet` in the [`UERP_Dataset`](https://huggingface.co/datasets/07subhadip/UERP_Dataset) repo.
+**Final unified catalog: 39,664 titles** → pushed to Hugging Face Hub as `unified_catalog_v1.parquet` in the [`UERP_Dataset`](https://huggingface.co/datasets/Subhadip007/UERP_Dataset) repo.
 
 ### Known Data Characteristics
 
