@@ -2,7 +2,7 @@
 
 A zero-cost, production-style AI recommendation system for **Movies**, **TV Series**, and **Anime**, built end-to-end as a portfolio project.
 
-> **Status:** Phase 1 (Data Foundation) — ✅ Complete
+> **Status:** Phase 2 (Exploratory Data Analysis) — ✅ Complete
 
 ---
 
@@ -15,6 +15,9 @@ A zero-cost, production-style AI recommendation system for **Movies**, **TV Seri
   - [Key Engineering Decisions](#key-engineering-decisions)
   - [Unified Schema](#unified-schema)
   - [Known Data Characteristics](#known-data-characteristics)
+- [Exploratory Data Analysis — Phase 2: EDA](#exploratory-data-analysis--phase-2-eda)
+  - [Analysis Scope](#analysis-scope)
+  - [Key Findings](#key-findings)
 - [Repository Structure](#repository-structure)
 - [Setup Notes](#setup-notes)
 - [Progress Log](#progress-log)
@@ -161,13 +164,44 @@ These are expected nulls from source data limitations, not bugs:
 
 ---
 
+## Exploratory Data Analysis — Phase 2: EDA
+
+Comprehensive exploratory analysis of the unified catalog (39,664 titles) to validate data quality, understand distributions, and inform feature engineering for the recommendation engine.
+
+**Notebook:** [`uerp-eda.ipynb`](kaggle-notebooks/uerp-eda.ipynb)
+
+### Analysis Scope
+
+- **Missing value analysis** — quantified nulls across all columns, validated they match expected patterns from Phase 1 (e.g., `runtime_minutes` null for TV-type, `episodes` null for non-anime)
+- **Genre distribution** — breakdown of canonical genres overall and by content type (movie vs. TV vs. anime), identification of dominant and underrepresented genres
+- **Year distribution** — release year spread across content types, temporal coverage and gaps
+- **Rating distribution** — `rating_normalized` (0–10 scale) distribution, comparison across content types and anime vs. non-anime
+- **Popularity distribution** — `popularity_signal` spread, skewness analysis, long-tail patterns
+- **Outlier detection** — statistical identification of anomalous values in ratings, popularity, runtime, and episodes
+- **Content-type breakdown** — catalog composition across `movie`, `tv_series`, `tv_miniseries`, `tv_movie`, `tv_special`, `short`
+- **Anime vs. non-anime split** — comparative analysis of the two catalog segments
+
+### Key Findings
+
+> Detailed charts and statistical breakdowns are in the notebook itself. Below is a high-level summary.
+
+- The catalog is **movie-dominant** (~20K movies) with healthy TV series representation (~8K), and a dedicated anime segment (4,912 titles)
+- Genre distribution shows **Drama** as the most common genre across all content types, with anime having a distinctly different genre profile (heavier on Action, Fantasy, Comedy)
+- Rating distributions are roughly normal-shaped (centered ~6.5–7.0 for non-anime, ~6.5–7.5 for anime), with no suspicious spikes or artifacts
+- Popularity follows a heavy **long-tail distribution** — a small number of titles account for the vast majority of popularity signal
+- Missing values align with Phase 1 documentation — no unexpected data gaps discovered
+- Year coverage spans from early cinema through 2026, with density increasing in recent decades
+
+---
+
 ## Repository Structure
 
 ```
 uerp-platform/
 ├── kaggle-notebooks/
-│   ├── uerp-data-ingestion.ipynb      # IMDb filtering, TMDB enrichment, AniList pull
-│   └── uerp-unified-schema.ipynb      # Schema unification, genre canonicalization, HF push
+│   ├── uerp-data-ingestion.ipynb      # Phase 1: IMDb filtering, TMDB enrichment, AniList pull
+│   ├── uerp-unified-schema.ipynb      # Phase 1: Schema unification, genre canonicalization, HF push
+│   └── uerp-eda.ipynb                 # Phase 2: Exploratory data analysis on unified catalog
 ├── backend/                           # FastAPI backend (coming soon)
 ├── frontend/                          # Next.js frontend (coming soon)
 ├── docs/                              # Project documentation (coming soon)
@@ -211,7 +245,7 @@ cd frontend
 | Phase | Milestone | Status | Notes |
 | ----- | --------- | ------ | ----- |
 | **1** | Data Foundation | ✅ Complete | 39,664 unified titles (34,763 IMDb+TMDB + 4,912 AniList). Catalog published to HF Hub. |
-| **2** | Exploratory Data Analysis | 🔲 Not started | — |
+| **2** | Exploratory Data Analysis | ✅ Complete | Full EDA on unified catalog — distributions, missing values, outliers, genre/year/rating analysis. |
 | **3** | Backend + Recommendation Engine | 🔲 Not started | — |
 | **4** | Frontend + UI | 🔲 Not started | — |
 | **5** | Deployment | 🔲 Not started | — |
@@ -220,11 +254,11 @@ cd frontend
 
 ## Up Next
 
-**Phase 2: Exploratory Data Analysis (EDA)**
-- Missing value analysis across the unified catalog
-- Genre distribution breakdown (overall and by content type)
-- Year, rating, and popularity distributions
-- Outlier detection and data quality validation
+**Phase 3: Backend + Recommendation Engine**
+- FastAPI backend setup with Supabase (Postgres) integration
+- Content-based recommendation engine using unified catalog features
+- API endpoints for search, filtering, and personalized recommendations
+- Model training on Kaggle, deployment via Render / HF Spaces
 
 ---
 
