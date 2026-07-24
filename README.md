@@ -2,7 +2,7 @@
 
 A zero-cost, production-style AI recommendation system for **Movies**, **TV Series**, and **Anime**, built end-to-end as a portfolio project.
 
-> **Status:** Phase 2 (Exploratory Data Analysis) — ✅ Complete
+> **Status:** Phase 3 (Feature Engineering) — ✅ Complete
 
 ---
 
@@ -18,6 +18,9 @@ A zero-cost, production-style AI recommendation system for **Movies**, **TV Seri
 - [Exploratory Data Analysis — Phase 2: EDA](#exploratory-data-analysis--phase-2-eda)
   - [Analysis Scope](#analysis-scope)
   - [Key Findings](#key-findings)
+- [Feature Engineering — Phase 3](#feature-engineering--phase-3)
+  - [Engineering Pipeline](#engineering-pipeline)
+  - [Features Built](#features-built)
 - [Repository Structure](#repository-structure)
 - [Setup Notes](#setup-notes)
 - [Progress Log](#progress-log)
@@ -194,6 +197,35 @@ Comprehensive exploratory analysis of the unified catalog (39,664 titles) to val
 
 ---
 
+## Feature Engineering — Phase 3
+
+Transformed the cleaned unified catalog into a model-ready feature set for the recommendation engine. Built text, categorical, and numerical features from raw fields.
+
+**Notebook:** [`uerp-feature-engineering.ipynb`](kaggle-notebooks/uerp-feature-engineering.ipynb)
+
+### Engineering Pipeline
+
+- **Text features** — processed `overview` (plot synopsis) and `title` fields for downstream NLP-based similarity (e.g., TF-IDF, embeddings)
+- **Genre encoding** — converted the canonical genre lists into multi-hot binary vectors across all 32 genres for content-based filtering
+- **Numerical normalization** — scaled `rating_normalized`, `popularity_signal`, `runtime_minutes`, and `episodes` for model compatibility
+- **Null handling** — imputed or flagged missing values identified during Phase 2 EDA (e.g., missing overviews, ratings, posters) using strategies appropriate to each field
+- **Categorical encoding** — encoded `content_type` and `is_anime` for model consumption
+- **Combined feature matrix** — assembled all engineered features into a single model-ready dataset
+
+### Features Built
+
+| Feature Category | Columns / Approach | Notes |
+| ---------------- | ------------------ | ----- |
+| **Text** | `overview`, `title` | Cleaned and prepared for TF-IDF / embedding generation |
+| **Genre** | 32 binary columns (multi-hot) | One column per canonical genre |
+| **Numerical** | `rating_normalized`, `popularity_signal`, `runtime_minutes`, `episodes` | Scaled / normalized |
+| **Categorical** | `content_type`, `is_anime` | Encoded for model input |
+| **Null flags** | Indicator columns for missing values | Preserves missingness signal |
+
+> Detailed transformations, distribution checks, and output validation are in the notebook.
+
+---
+
 ## Repository Structure
 
 ```
@@ -201,7 +233,8 @@ uerp-platform/
 ├── kaggle-notebooks/
 │   ├── uerp-data-ingestion.ipynb      # Phase 1: IMDb filtering, TMDB enrichment, AniList pull
 │   ├── uerp-unified-schema.ipynb      # Phase 1: Schema unification, genre canonicalization, HF push
-│   └── uerp-eda.ipynb                 # Phase 2: Exploratory data analysis on unified catalog
+│   ├── uerp-eda.ipynb                 # Phase 2: Exploratory data analysis on unified catalog
+│   └── uerp-feature-engineering.ipynb  # Phase 3: Feature engineering for recommendation model
 ├── backend/                           # FastAPI backend (coming soon)
 ├── frontend/                          # Next.js frontend (coming soon)
 ├── docs/                              # Project documentation (coming soon)
@@ -228,12 +261,12 @@ The data ingestion and schema unification notebooks are designed to run on **Kag
 git clone https://github.com/07subhadip/uerp-platform.git
 cd uerp-platform
 
-# Backend (coming in Phase 3)
+# Backend (coming in Phase 4)
 cd backend
 # pip install -r requirements.txt
 # uvicorn main:app --reload
 
-# Frontend (coming in Phase 4)
+# Frontend (coming in Phase 5)
 cd frontend
 # npm install && npm run dev
 ```
@@ -246,19 +279,20 @@ cd frontend
 | ----- | --------- | ------ | ----- |
 | **1** | Data Foundation | ✅ Complete | 39,664 unified titles (34,763 IMDb+TMDB + 4,912 AniList). Catalog published to HF Hub. |
 | **2** | Exploratory Data Analysis | ✅ Complete | Full EDA on unified catalog — distributions, missing values, outliers, genre/year/rating analysis. |
-| **3** | Backend + Recommendation Engine | 🔲 Not started | — |
-| **4** | Frontend + UI | 🔲 Not started | — |
-| **5** | Deployment | 🔲 Not started | — |
+| **3** | Feature Engineering | ✅ Complete | Text, genre (multi-hot), numerical, and categorical features built from unified catalog. |
+| **4** | Backend + Recommendation Engine | 🔲 Not started | — |
+| **5** | Frontend + UI | 🔲 Not started | — |
+| **6** | Deployment | 🔲 Not started | — |
 
 ---
 
 ## Up Next
 
-**Phase 3: Backend + Recommendation Engine**
+**Phase 4: Backend + Recommendation Engine**
+- Content-based recommendation model training (TF-IDF / embeddings on engineered features)
 - FastAPI backend setup with Supabase (Postgres) integration
-- Content-based recommendation engine using unified catalog features
 - API endpoints for search, filtering, and personalized recommendations
-- Model training on Kaggle, deployment via Render / HF Spaces
+- Model storage on HF Hub (`UERP_Model` repo), deployment via Render / HF Spaces
 
 ---
 
