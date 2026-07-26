@@ -2,7 +2,7 @@
 
 A zero-cost, production-style AI recommendation system for **Movies**, **TV Series**, and **Anime**, built end-to-end as a portfolio project.
 
-> **Status:** Phase 3 (Feature Engineering) — ✅ Complete
+> **Status:** Phase 4 (Backend + Recommendation Engine) — ✅ Complete
 
 ---
 
@@ -224,6 +224,13 @@ Transformed the cleaned unified catalog into a model-ready feature set for the r
 
 > Detailed transformations, distribution checks, and output validation are in the notebook.
 
+## Known Limitations
+
+**Known limitation (Stage 2 content-based recommender):** Titles tagged with very few genres 
+(e.g., single-tag "Drama") can rank exact single-tag matches above thematically-closer 
+multi-tag titles, due to cosine similarity's sensitivity to tag-vector sparsity. Will be 
+addressed by the learned ranking model (Stage 6) rather than hand-tuned further in the MVP.
+
 ---
 
 ## Repository Structure
@@ -234,8 +241,9 @@ uerp-platform/
 │   ├── uerp-data-ingestion.ipynb      # Phase 1: IMDb filtering, TMDB enrichment, AniList pull
 │   ├── uerp-unified-schema.ipynb      # Phase 1: Schema unification, genre canonicalization, HF push
 │   ├── uerp-eda.ipynb                 # Phase 2: Exploratory data analysis on unified catalog
-│   └── uerp-feature-engineering.ipynb  # Phase 3: Feature engineering for recommendation model
-├── backend/                           # FastAPI backend (coming soon)
+│   ├── uerp-feature-engineering.ipynb  # Phase 3: Feature engineering for recommendation model
+│   └── uerp-mvp-recommender.ipynb     # Phase 4: Content-based recommendation model and MVP
+├── backend/                           # FastAPI backend
 ├── frontend/                          # Next.js frontend (coming soon)
 ├── docs/                              # Project documentation (coming soon)
 ├── LICENSE
@@ -280,7 +288,7 @@ cd frontend
 | **1** | Data Foundation | ✅ Complete | 39,664 unified titles (34,763 IMDb+TMDB + 4,912 AniList). Catalog published to HF Hub. |
 | **2** | Exploratory Data Analysis | ✅ Complete | Full EDA on unified catalog — distributions, missing values, outliers, genre/year/rating analysis. |
 | **3** | Feature Engineering | ✅ Complete | Text, genre (multi-hot), numerical, and categorical features built from unified catalog. |
-| **4** | Backend + Recommendation Engine | 🔲 Not started | — |
+| **4** | Backend + Recommendation Engine | ✅ Complete | Content-based recommendation model training and FastAPI backend setup with endpoints. |
 | **5** | Frontend + UI | 🔲 Not started | — |
 | **6** | Deployment | 🔲 Not started | — |
 
@@ -288,11 +296,10 @@ cd frontend
 
 ## Up Next
 
-**Phase 4: Backend + Recommendation Engine**
-- Content-based recommendation model training (TF-IDF / embeddings on engineered features)
-- FastAPI backend setup with Supabase (Postgres) integration
-- API endpoints for search, filtering, and personalized recommendations
-- Model storage on HF Hub (`UERP_Model` repo), deployment via Render / HF Spaces
+**Phase 5: Frontend + UI**
+- Next.js application setup and routing
+- Implementation of landing page, search, and detail views
+- Supabase integration for user auth and personalized lists
 
 ---
 
