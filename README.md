@@ -2,7 +2,7 @@
 
 A zero-cost, production-style AI recommendation system for **Movies**, **TV Series**, and **Anime**, built end-to-end as a portfolio project.
 
-> **Status:** Phase 4 (Backend + Recommendation Engine) — ✅ Complete
+> **Status:** Phase 4 (Backend + Recommendation Engine) — 🚧 In Progress
 
 ---
 
@@ -21,6 +21,7 @@ A zero-cost, production-style AI recommendation system for **Movies**, **TV Seri
 - [Feature Engineering — Phase 3](#feature-engineering--phase-3)
   - [Engineering Pipeline](#engineering-pipeline)
   - [Features Built](#features-built)
+- [Known Limitations](#known-limitations)
 - [Repository Structure](#repository-structure)
 - [Setup Notes](#setup-notes)
 - [Progress Log](#progress-log)
@@ -224,12 +225,20 @@ Transformed the cleaned unified catalog into a model-ready feature set for the r
 
 > Detailed transformations, distribution checks, and output validation are in the notebook.
 
+---
+
 ## Known Limitations
 
-**Known limitation (Stage 2 content-based recommender):** Titles tagged with very few genres 
-(e.g., single-tag "Drama") can rank exact single-tag matches above thematically-closer 
-multi-tag titles, due to cosine similarity's sensitivity to tag-vector sparsity. Will be 
-addressed by the learned ranking model (Stage 6) rather than hand-tuned further in the MVP.
+**MovieLens-IMDb linking:** A small number of MovieLens `links.csv` entries point to mismatched 
+IMDb IDs due to title collisions in IMDb itself (e.g., "Black Mirror" linked to an unrelated 
+2011 short film instead of the 2011 TV series). These surface as NaN metadata in CF 
+recommendations and are filtered out naturally by downstream `rating_normalized` checks. 
+Not fixed at pipeline level — verified via manual research on a case-by-case basis.
+
+**Content-based ranking (Stage 2):** Titles tagged with very few genres (e.g., single-tag 
+"Drama") can rank exact single-tag matches above thematically-closer multi-tag titles, due 
+to cosine similarity's sensitivity to tag-vector sparsity. Will be addressed by the learned 
+ranking model (Stage 6) rather than hand-tuned further in the MVP.
 
 ---
 
@@ -288,13 +297,18 @@ cd frontend
 | **1** | Data Foundation | ✅ Complete | 39,664 unified titles (34,763 IMDb+TMDB + 4,912 AniList). Catalog published to HF Hub. |
 | **2** | Exploratory Data Analysis | ✅ Complete | Full EDA on unified catalog — distributions, missing values, outliers, genre/year/rating analysis. |
 | **3** | Feature Engineering | ✅ Complete | Text, genre (multi-hot), numerical, and categorical features built from unified catalog. |
-| **4** | Backend + Recommendation Engine | ✅ Complete | Content-based recommendation model training and FastAPI backend setup with endpoints. |
-| **5** | Frontend + UI | 🔲 Not started | — |
-| **6** | Deployment | 🔲 Not started | — |
+| **4** | Collaborative Filtering (Stage 3) | ✅ Complete | Phase/Stage 3 complete: Collaborative Filtering baseline (SVD) trained on MovieLens 25M, RMSE 0.7728, integrated with catalog via IMDb-ID linking + anime title/year fallback matching. |
+| **5** | Backend + Recommendation Engine | 🚧 In Progress | MVP backend complete. Integrating models. |
+| **6** | Frontend + UI | 🔲 Not started | — |
+| **7** | Deployment | 🔲 Not started | — |
 
 ---
 
 ## Up Next
+
+**Phase 4 (Continuation): Recommendation Engine**
+- Train Collaborative Filtering (SVD) model for personalized recommendations
+- Integrate the learned ranking model into the FastAPI backend
 
 **Phase 5: Frontend + UI**
 - Next.js application setup and routing

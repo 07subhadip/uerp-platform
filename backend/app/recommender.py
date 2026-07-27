@@ -15,7 +15,7 @@ def get_popular(catalog, content_type = None, is_anime = None, genre = None, top
 
 def get_similar(content_id, catalog, structured_features, text_embeddings,
                 genre_weight = 0.3, text_weight = 0.7,
-                min_popularity_percentile = 0.7, top_n = 10):
+                min_popularity_percentile = 0.7, min_rating = 6.0, top_n = 10):
     idx_matches = catalog.index[catalog['content_id'] == content_id]
     if len(idx_matches) == 0:
         return None
@@ -33,6 +33,7 @@ def get_similar(content_id, catalog, structured_features, text_embeddings,
     result_df['similarity_score'] = hybrid_scores
     result_df = result_df[result_df['content_id'] != content_id]
     result_df = result_df[result_df['popularity_percentile'] >= min_popularity_percentile]
+    result_df = result_df[result_df['rating_normalized'] >= min_rating]
     result_df = result_df.sort_values('similarity_score', ascending = False)
 
     return result_df.head(top_n)
