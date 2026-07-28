@@ -251,7 +251,9 @@ uerp-platform/
 │   ├── uerp-unified-schema.ipynb      # Phase 1: Schema unification, genre canonicalization, HF push
 │   ├── uerp-eda.ipynb                 # Phase 2: Exploratory data analysis on unified catalog
 │   ├── uerp-feature-engineering.ipynb  # Phase 3: Feature engineering for recommendation model
-│   └── uerp-mvp-recommender.ipynb     # Phase 4: Content-based recommendation model and MVP
+│   ├── uerp-collaborative-filtering.ipynb # Phase 4: Collaborative Filtering baseline (SVD)
+│   ├── uerp-ncf.ipynb                 # Phase 5: Neural Collaborative Filtering model
+│   └── uerp-mvp-recommender.ipynb     # Content-based recommendation model and MVP
 ├── backend/                           # FastAPI backend
 ├── frontend/                          # Next.js frontend (coming soon)
 ├── docs/                              # Project documentation (coming soon)
@@ -298,9 +300,10 @@ cd frontend
 | **2** | Exploratory Data Analysis | ✅ Complete | Full EDA on unified catalog — distributions, missing values, outliers, genre/year/rating analysis. |
 | **3** | Feature Engineering | ✅ Complete | Text, genre (multi-hot), numerical, and categorical features built from unified catalog. |
 | **4** | Collaborative Filtering (Stage 3) | ✅ Complete | Phase/Stage 3 complete: Collaborative Filtering baseline (SVD) trained on MovieLens 25M, RMSE 0.7728, integrated with catalog via IMDb-ID linking + anime title/year fallback matching. |
-| **5** | Backend + Recommendation Engine | 🚧 In Progress | MVP backend complete. Integrating models. |
-| **6** | Frontend + UI | 🔲 Not started | — |
-| **7** | Deployment | 🔲 Not started | — |
+| **5** | Neural Collaborative Filtering | ✅ Complete | Neural Collaborative Filtering (NCF) model added to recommendation pipeline. |
+| **6** | Backend + Recommendation Engine | 🚧 In Progress | MVP backend complete. Integrating models. |
+| **7** | Frontend + UI | 🔲 Not started | — |
+| **8** | Deployment | 🔲 Not started | — |
 
 ---
 
